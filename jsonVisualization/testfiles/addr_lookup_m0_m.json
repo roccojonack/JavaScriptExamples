@@ -1,0 +1,28 @@
+{
+	"jomy" :	
+	{
+		"SLAVES" : [ "s0_s" , "my" ],
+		"base_reg_addr" : 
+		{
+			"name" : "00004400"
+		},
+		"base_reset" : "ffffffff00000018",
+		"high_priority" : true,
+		"inst" : false,
+		"inst_mask" : false,
+		"mask" : "fff00000",
+		"mask_reg_addr" : "00004408",
+		"mask_reset" : "ffffffff00000008",
+		"master_addr_base" : "80000000",
+		"name" : "s0_map",
+		"ns" : false,
+		"ns_mask" : false,
+		"priv" : false,
+		"priv_mask" : false,
+		"read" : true,
+		"slave_addr_base" : "80000000",
+		"split_size" : 1024,
+		"system_addr_base" : "80000000",
+		"write" : true
+	}
+}
