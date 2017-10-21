@@ -1,0 +1,5 @@
+ToDo>
+
+amount should be decimal and not string
+filter should also be reflected in plot
+filtering by categories
