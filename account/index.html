@@ -31,9 +31,9 @@
 	  <a href="#anylink" class="ui-btn" id="button">Remove Selected</a>
 	</div>
       </p>
-      <div id="chartCanvas" style="width:1000px; height:600px;"></div>
-      <div id="spaveCanvas" style="width:1000px; height:80px;"></div>
-      <div id="tableCanvas" style="width:1000px; height:600px;">
+      <div id="chartCanvas" style="width:1200px; height:600px;"></div>
+      <div id="spaveCanvas" style="width:1200px; height:80px;"></div>
+      <div id="tableCanvas" style="width:1200px; height:600px;">
 	<table border="0" cellspacing="5" cellpadding="5">
 	  <tbody>
 	    <tr>
@@ -87,8 +87,12 @@
 
       <script>
 
-	/* JAVASCRIPT CODE GOES HERE */
-	var table = $("#example").DataTable( );
+      /* JAVASCRIPT CODE GOES HERE */
+      var table = $("#example").DataTable( );
+      var Title  = "account overview";
+      var xTitle = "date";
+      var yTitle = "amount";
+      var key_data_string;
 	
 function filterColumn ( i ) {
     $('#example').DataTable().column( i ).search(
@@ -163,15 +167,18 @@ $.fn.dataTable.ext.search.push(
 	} );
      
 	$('input.column_filter').on( 'keyup click', function () {
-        filterColumn( $(this).parents('tr').attr('data-column') );
-    } );    
-	
+          filterColumn( $(this).parents('tr').attr('data-column') );
+          // console.log(table.rows( { filter : 'applied'} ).data());
+          myPlot(table.rows( { filter : 'applied'} ).data());
+        } );    
+      
         // Event listener to the two range filtering inputs to redraw on input
         $('#min, #max').keyup( function() {
-		  console.log(data);
+          console.log(table.rows( { filter : 'applied'} ).data());
           table.draw();
         } );
        $('#minLen, #maxLen').keyup( function() {
+          console.log(table.rows( { filter : 'applied'} ).data());
           table.draw();
         } );
 };
@@ -185,16 +192,31 @@ $.fn.dataTable.ext.search.push(
 // the main function is reading a CSV file, putting the data into a JS data structure
 // and finally formats the data for plotly; setting up all layout information
 // finally calling plotly itself
-function readCSV(data, Title, xTitle, yTitle, xscale) {
+function myPlot(data) {
+      //var my_data  = d3.csvParse(data);
+      var my_data  = key_data_string + "\n";
+      var index;
+      for (index=0; index < data.length; index++) {
+        // console.log(data[index]);  // raw CSV data
+	my_data += data[index].toString();
+	my_data += "\n";
+      }
+      // console.log(data.length);  // length of vector
+      // console.log(my_data);  // length of vector
+      // var my_data1  = d3.csvParse(my_data);
+      // console.log(my_data1); 
+      plotChart(my_data);
+}
+
+function plotChart(data) {
       var my_data  = d3.csvParse(data);
       // var my_data  = data;
-      console.log(my_data);  // raw CSV data
-      console.log(my_data.length);  // length of vector
+      // console.log(my_data);  // raw CSV data
+      // console.log(my_data.length);  // length of vector
 
        // first line contains the keys for different sets of values
-      var key_data_string = data.substring(0,data.indexOf("\n"));
       var key_data = key_data_string.split(",");
-      console.log(key_data);  // key labels
+      // console.log(key_data);  // key labels
  
       // first row contains X axis values for all sets
       var xAxis = [];
@@ -203,16 +225,16 @@ function readCSV(data, Title, xTitle, yTitle, xscale) {
       for (index = 0; index < my_data.length; index++) {
         xAxis.push(my_data[index][key_data[0]]);
 	  };	
-      console.log(xAxis);
+      // console.log(xAxis); 
 
-      // all rows (except for first/second which is X) define Y values
-      var yAxis = [];
-      var yAxis_tmp = [];
+     // all rows (except for first/second which is X) define Y values
+      var yAxis       = [];
+      var yAxis_tmp   = [];
       var start_index = 2;
       var end_index   = 4;
-      var  accumulate = 0;
-      var  accumulateArray = [];
-      index1 = 2;
+      var accumulate  = 0;
+      var accumulateArray = [];
+      index1    = 2;
       yAxis_tmp = [];
       for (index = 0; index < my_data.length; index++) {
         var amount = convertStringToNumber(my_data[index][key_data[index1]]);
@@ -231,7 +253,7 @@ function readCSV(data, Title, xTitle, yTitle, xscale) {
 	  };
       yAxis.push(yAxis_tmp);
     
-      console.log(yAxis);
+      // console.log(yAxis);
       // push data into data structure for plotly
         var trace1 = {
           x: xAxis,
@@ -284,12 +306,9 @@ function readCSV(data, Title, xTitle, yTitle, xscale) {
 d3.select("select")
       .on("change", function(d) {
       var sel       = d3.select('#label-option').node().value + ".txt";
-      var xscale    = d3.select('#x-scale-option').node().value;
+      // var xscale    = d3.select('#x-scale-option').node().value;
       console.log(sel);
-      console.log(xscale);
-      var Title  = "account overview";
-      var xTitle = "date";
-      var yTitle = "amount";
+      //console.log(xscale);
       // read actual CSV file; make sure no spaces!
       d3.text(sel, function(data) {
       // setup the title based on comment if input file
@@ -299,8 +318,12 @@ d3.select("select")
       // setup the Y axis title based on comment if input file
       console.log("yTitle is " + yTitle);
       // remove all comments before passing into data structure
-      data = data.replace(/^[#@][^\r\n]+[\r\n]+/mg, '');
-      readCSV(data, Title, xTitle, yTitle, xscale);
+      data = data.replace(/^[#@][^\r\n]+[\r\n]+/mg, ''); 
+      // console.log("data is " + data);
+      // var my_data  = d3.csvParse(data);
+      key_data_string = data.substring(0,data.indexOf("\n"));
+
+      plotChart(data);
       table.destroy();
       generateTable(data);
       } );
