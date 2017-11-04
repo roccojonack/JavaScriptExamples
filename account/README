@@ -1,5 +1,17 @@
 ToDo>
 
-amount should be decimal and not string
-filter should also be reflected in plot
-filtering by categories
+grouping by week, month, year
+
+data preparation from credit card
+
+run bin/run_convpdf.csh to convert all pdfs in subdirs pdfs
+run bin/run.csh to clean up output from previous run and generate a CSV file
+examine my.txt and if correct name it targo_card.txt
+
+data preparation from account statement
+
+assuming exported file from bank is a.csv
+bin/statementreader.py -f a.csv
+produces tmp.txt with ; separtor 
+bin/statement2csv.py -f tmp.txt 
+produces targo_cleaner.txt with , separator and in unified structure

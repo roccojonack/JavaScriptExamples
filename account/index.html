@@ -8,7 +8,7 @@
     <link href="js/DataTables/datatables.min.css" type="text/css" rel="stylesheet" />
   </head>
   <body>
-      <p><h1 align=center>statistics based on account infromation</h1></p>
+      <p><h1 align=center>statistics based on account information</h1></p>
       <hr size="1">
       <div data-role="header">
 	<div data-role="navbar">
@@ -22,7 +22,9 @@
 	<div data-role="controlgroup" data-type="horizontal">
           <select id="label-option">
 	      <option value="foo">dummy </option>
-	      <option value="targo_cleaner">targo</option>
+	      <option value="targo_card">credit card</option>
+	      <option value="targo_priv1">private account</option>
+	      <option value="targo_biz1">business account</option>
           </select>
           <select id="x-scale-option">
 	    <option value="cycle">cycle based X Axis</option>
@@ -31,16 +33,16 @@
 	  <a href="#anylink" class="ui-btn" id="button">Remove Selected</a>
 	</div>
       </p>
-      <div id="chartCanvas" style="width:1200px; height:600px;"></div>
-      <div id="spaveCanvas" style="width:1200px; height:80px;"></div>
-      <div id="tableCanvas" style="width:1200px; height:600px;">
+      <div id="chartCanvas" style="width:90%; height:600px;"></div>
+      <div id="spaveCanvas" style="width:90%; height:80px;"></div>
+      <div id="tableCanvas" style="width:90%; height:600px;">
 	<table border="0" cellspacing="5" cellpadding="5">
 	  <tbody>
 	    <tr>
 	      <td>Min date:</td>
-	      <td><input type="text" id="min" name="min"></td>
+	      <td><input type="text" class="date_filter" id="min" name="min"></td>
 	      <td>Max date:</td>
-	      <td><input type="text" id="max" name="max"></td>
+	      <td><input type="text" class="date_filter" id="max" name="max"></td>
 	    </tr>
 	    <tr id="filter_col2" data-column="1">
             <td>Search Description</td>
@@ -57,9 +59,9 @@
 	    </tr>
 	    <tr>
 	      <td>Min Amount:</td>
-	      <td><input type="text" id="minRespS" name="minRespS"></td>
+	      <td><input type="text" class="amount_filter" id="minAmount" name="minAmount"></td>
 	      <td>Max Amount:</td>
-	      <td><input type="text" id="maxRespS" name="maxRespS"></td>
+	      <td><input type="text" class="amount_filter" id="maxAmount" name="maxAmount"></td>
 	    </tr>
 	  </tbody></table>
 	<table id="example" class="display" cellspacing="0" width="100%">
@@ -70,7 +72,6 @@
 	      <th>Amount</th>
 	      <th>category</th>
 	      <th>Account</th>
-	
 	    </tr>
 	  </thead>
 	  <tfoot>
@@ -94,16 +95,16 @@
       var yTitle = "amount";
       var key_data_string;
 	
-function filterColumn ( i ) {
-    $('#example').DataTable().column( i ).search(
+      function filterColumn ( i ) {
+        $('#example').DataTable().column( i ).search(
         $('#col'+i+'_filter').val(),
         $('#col'+i+'_regex').prop('checked'),
         $('#col'+i+'_smart').prop('checked')
-    ).draw();
-}
- 	
-	function generateTable(data) {
-	  var dataSet = [];
+        ).draw();
+      }
+ 
+      function generateTable(data) {
+          var dataSet = [];
 	  var startOfString = data.indexOf("\n",0);
 	  // console.log(data);
 	  do {
@@ -115,7 +116,7 @@ function filterColumn ( i ) {
 	    dataSet.push(data1_array);
 	    startOfString = data.indexOf("\n",startOfString+1);
 	  } while (startOfString<(data.length-1))
-	  console.log(dataSet);
+	  // console.log(dataSet);
 
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
@@ -123,6 +124,7 @@ $.fn.dataTable.ext.search.push(
         var max = $('#max').val();
         var age = data[0]; // use data for the age column
   
+        // console.log("date parsing " + min + " " + max + " " + age);
         if ( ( min.trim().length==0      && max.trim().length==0      ) ||
              ( min.trim().length==0      && age.localeCompare(max)<=0 ) ||
              ( min.localeCompare(age)<=0 && max.trim().length==0      ) ||
@@ -133,12 +135,14 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
+
 $.fn.dataTable.ext.search.push(
     function( settings, data, dataIndex ) {
-        var min = parseFloat( $('#minReq').val() );
-        var max = parseFloat( $('#maxReq').val() );
+        var min = parseFloat( $('#minAmount').val() );
+        var max = parseFloat( $('#maxAmount').val() );
         var age = parseFloat( data[2] ) || 0; // use data for the age column
  
+        // console.log("amount parsing " + min + " " + max + " " + age);
         if ( ( isNaN( min ) && isNaN( max ) ) ||
              ( isNaN( min ) && age <= max ) ||
              ( min <= age   && isNaN( max ) ) ||
@@ -168,18 +172,20 @@ $.fn.dataTable.ext.search.push(
      
 	$('input.column_filter').on( 'keyup click', function () {
           filterColumn( $(this).parents('tr').attr('data-column') );
-          // console.log(table.rows( { filter : 'applied'} ).data());
-          myPlot(table.rows( { filter : 'applied'} ).data());
+          // console.log(table.rows( { filter : 'applied' } ).data());
+          myPlot(table.rows( { filter : 'applied' } ).data());
         } );    
       
         // Event listener to the two range filtering inputs to redraw on input
-        $('#min, #max').keyup( function() {
-          console.log(table.rows( { filter : 'applied'} ).data());
+        $('input.date_filter').on('keyup click', function() {
+          // console.log( table.rows( { filter : 'applied' } ).data() );
           table.draw();
+          myPlot(table.rows( { filter : 'applied' } ).data());
         } );
-       $('#minLen, #maxLen').keyup( function() {
-          console.log(table.rows( { filter : 'applied'} ).data());
+       $('input.amount_filter').on('keyup click', function() {
+          // console.log(table.rows( { filter : 'applied' } ).data());
           table.draw();
+          myPlot(table.rows( { filter : 'applied' } ).data());
         } );
 };
   
@@ -201,10 +207,8 @@ function myPlot(data) {
 	my_data += data[index].toString();
 	my_data += "\n";
       }
-      // console.log(data.length);  // length of vector
-      // console.log(my_data);  // length of vector
-      // var my_data1  = d3.csvParse(my_data);
-      // console.log(my_data1); 
+      console.log(data.length);  // length of vector
+      // console.log(my_data);  // values to be ploted
       plotChart(my_data);
 }
 
@@ -216,7 +220,7 @@ function plotChart(data) {
 
        // first line contains the keys for different sets of values
       var key_data = key_data_string.split(",");
-      // console.log(key_data);  // key labels
+      //console.log(key_data);  // key labels
  
       // first row contains X axis values for all sets
       var xAxis = [];
@@ -249,13 +253,13 @@ function plotChart(data) {
       index1 = 1;
       yAxis_tmp = [];
       for (index = 0; index < my_data.length; index++) {
-            yAxis_tmp.push(my_data[index][key_data[index1]]);
-	  };
+        yAxis_tmp.push(my_data[index][key_data[index1]]);
+      };
       yAxis.push(yAxis_tmp);
     
-      // console.log(yAxis);
+      //console.log(yAxis);
       // push data into data structure for plotly
-        var trace1 = {
+      var trace1 = {
           x: xAxis,
           y: yAxis[0],
           name: 'amount',
@@ -263,24 +267,24 @@ function plotChart(data) {
           //mode: 'lines+markers',
           //line: {shape: 'spline'},
           type: 'bar'
-        };
-         var trace2 = {
+      };
+      var trace2 = {
           x: xAxis,
           y: yAxis[1],
           name: 'sum',
           mode: 'lines+markers',
           line: {shape: 'hv'},
           //type: 'bar'
-        };
+      };
        
-       var data = [trace1,trace2];
-       // setup layout information
+      var data = [trace1,trace2];
+      // setup layout information
       var layout = {
         title: Title,
         xaxis: {
           title: xTitle,
 		  type: 'date',
-         tickfont: {
+          tickfont: {
             size: 14,
             color: 'rgb(107, 107, 107)'
           },

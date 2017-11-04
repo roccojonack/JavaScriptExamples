@@ -1,13 +1,15 @@
-#! /bin/csh -f
+#! /bin/bash -f
 
-foreach x (ls pdfs/Ihre*)
-#    set words = `echo $x:q | sed 's/ / /g'`
-    set  my = `echo $x | cut -d' ' -f7`
-    set  my1 = `echo $my | cut -d'-' -f0-2`
-   
-    echo "date my $my1"
-    echo "file $x"
-    ./bin/pdfreader.py "$x" > txt/credit_${my1}.txt
-end
+files=`ls pdfs`
+echo $files
+find pdfs -iname 'Ihre*' -print0 | while read -d $'\0' -r file;
+do
+    my=`echo $file | cut -d' ' -f7`
+    my1=`echo $my | cut -d'-' -f1-2`
+    echo "date $my1"
+    echo "file $file"
+    ./bin/pdfreader.py "$file" > txt/credit_${my1}.txt
+done
+
 
 

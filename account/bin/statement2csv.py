@@ -1,4 +1,4 @@
-#! /home/demo/tools/python/bin/python
+#! /usr/bin/python
 
 import re
 from optparse import OptionParser
@@ -72,7 +72,7 @@ def findCategory (word):
     else:
         print "Debug: No match for groceries"
 
-    matchObj = re.search(r'HOEFFNER|IKEA|V-BAUM',word)
+    matchObj = re.search(r'HOEFFNER|www.hoeffner.de|IKEA|V-BAUM',word)
     if matchObj:
         print "Info: Match for home improvement : ",matchObj.group()
         return('home improvement')
@@ -93,12 +93,19 @@ def findCategory (word):
     else:
         print "Debug: No match for electronic"
 
-    matchObj = re.search(r'INTERNE UMBUCHUNG',word)
+    matchObj = re.search(r'INTERNE UMBUCHUNG|ZAHLUNGPERBANKEINZUG',word)
     if matchObj:
         print "Info: Match for refill : ",matchObj.group()
         return('refill')
     else:
         print "Debug: No match for refill"
+
+    matchObj = re.search(r'AUSLANDSEINSATZ',word)
+    if matchObj:
+        print "Info: Match for cardFee : ",matchObj.group()
+        return('cardFee')
+    else:
+        print "Debug: No match for cardFee"
 
     matchObj = re.search(r'TARGO VERSICHERUNG',word)
     if matchObj:
@@ -107,21 +114,21 @@ def findCategory (word):
     else:
         print "Debug: No match for invest"
 
-    matchObj = re.search(r'Stattauto|RENTALCARS.COM|AUTOEUROPE|TANKSTELLE|Drive Now|DB AUTOMAT|DB VERTRIEB|DBBAHNAUTOMAT|LUFTHANSA|MVG|Meridian|Flixbus',word)
+    matchObj = re.search(r'Stattauto|RENTALCARS.COM|AUTOEUROPE|TANKSTELLE|Drive Now|DB AUTOMAT|DB VERTRIEB|DBBAHNAUTOMAT|LUFTHANSA|MVG|Meridian|Flixbus|EUROPCAR',word)
     if matchObj:
         print "Info: Match for transport : ",matchObj.group()
         return('transport')
     else:
         print "Debug: No match for transport"
 
-    matchObj = re.search(r'DEUTSCHEBANK|BARGELDABHEBUNG|ATM|HVB|STADTSPARKASSE|UMBUCHUNGBARGELDABHEBUNG|VRBANK|SPARDA-BANK|COMMERZBANK',word)
+    matchObj = re.search(r'DEUTSCHEBANK|BARGELDABHEBUNG|BARGELDAUSZAHLUNG|ATM|HVB|STADTSPARKASSE|UMBUCHUNGBARGELDABHEBUNG|VRBANK|SPARDA-BANK|COMMERZBANK|POSTBANK',word)
     if matchObj:
         print "Info: Match for cash : ",matchObj.group()
         return('cash')
     else:
         print "Debug: No match for cash"
 
-    matchObj = re.search(r'GLORIAPALAST|MunchenMusik|NETFLIX|Google Music',word)
+    matchObj = re.search(r'GLORIAPALAST|GloriaPalast|MunchenMusik|NETFLIX|Google Music',word)
     if matchObj:
         print "Info: Match for entertainment : ",matchObj.group()
         return('entertainment')
@@ -279,14 +286,16 @@ def handleCreditCardStatement (string,accountName,year,rollover):
 def handleAccountStatement(string,hour,rememberDate):
     counter = 0
     newLine = ""
-    words = string.split(",")
+    print "handleAccount : ",string
+    words = string.split(";")
     for word in words:
         if counter==0:
             # handle date
-            myDateList = word.split(".")
+            myDateList = word.split("/")
             print "dateList: ", myDateList," length ",len(myDateList)," ",word
-            myDateList.reverse()
-            myDate = '-'.join(myDateList)
+            #myDateList.reverse()
+            #myDate = '-'.join(myDateList)
+            myDate = myDateList[2]+'-'+myDateList[0]+'-'+myDateList[1]
             counter = 1   
             if myDate==rememberDate:
                 hour += 1
@@ -294,14 +303,14 @@ def handleAccountStatement(string,hour,rememberDate):
                 hour  = 0
             newLine      = myDate
             rememberDate = myDate
-            myDate += " "+str(hour).zfill(2)
+            # myDate += " "+str(hour).zfill(2)
             newLine      = myDate
             print "new date: ", myDate
             continue
         if counter==1:
             # deal with description
             category = findCategory(word)
-            newLine = newLine+","+word 
+            newLine = newLine+",\""+word+"\"" 
             counter = 2
             continue
         if counter==2:
@@ -316,10 +325,12 @@ def handleAccountStatement(string,hour,rememberDate):
             newLine = newLine+",\""+category+"\""
             continue
         if counter==4:
+            print "found : ", word
             counter = 5
             continue
         if counter==5:
             counter = 6
+            print "found account: ", word
             newLine = newLine+","+word
             continue
         counter+=1   
@@ -379,7 +390,7 @@ for line in data:
         print "found account legend with ",printedLegend
         if printedLegend==0:
             printedLegend=1
-            # fout.write(legendHeader)
+            fout.write(legendHeader)
         account      = 1
         continue
     # finding legend for credit card
@@ -417,9 +428,9 @@ for line in data:
         lastLine = line
         continue
     if account==1:
-        newLine,hour,rememberDate = handleAccountStatement(myLine,hour,rememberDate)
+        print "Debug: account handling ", line
+        newLine,hour,rememberDate = handleAccountStatement(line,hour,rememberDate)
         print "Debug: writing", newLine,":",hour,":",rememberDate
-        # fout.write(newLine)
         newData.append(newLine)
         continue
     print "Error: should never get here"

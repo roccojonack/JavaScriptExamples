@@ -1,4 +1,4 @@
-#! /home/demo/tools/python/bin/python
+#! /usr/bin/python
 import sys
 
 def pdf_to_csv(filename, separator, threshold):
