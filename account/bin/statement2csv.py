@@ -114,7 +114,7 @@ def findCategory (word):
     else:
         print "Debug: No match for invest"
 
-    matchObj = re.search(r'Stattauto|RENTALCARS.COM|AUTOEUROPE|TANKSTELLE|Drive Now|DB AUTOMAT|DB VERTRIEB|DBBAHNAUTOMAT|LUFTHANSA|MVG|Meridian|Flixbus|EUROPCAR',word)
+    matchObj = re.search(r'Stattauto|RENTALCARS.COM|AUTOEUROPE|TANKSTELLE|DriveNow|Drive Now|DB AUTOMAT|DB VERTRIEB|DBBAHNAUTOMAT|LUFTHANSA|MVG|Meridian|Flixbus|EUROPCAR',word)
     if matchObj:
         print "Info: Match for transport : ",matchObj.group()
         return('transport')
@@ -163,14 +163,14 @@ def findCategory (word):
     else:
         print "Debug: No match for utilities"
 
-    matchObj = re.search(r'STOK F FINANZAMT|Rundfunk ARD ZDF',word)
+    matchObj = re.search(r'STOK F FINANZAMT|DRV BUND|Rundfunk ARD ZDF|KATHI KLEMM',word)
     if matchObj:
         print "Info: Match for tax : ",matchObj.group()
         return('tax')
     else:
         print "Debug: No match for tax"
 
-    matchObj = re.search(r'1u1 Telecom',word)
+    matchObj = re.search(r'1u1 Telecom|M-net Telek',word)
     if matchObj:
         print "Info: Match for communication : ",matchObj.group()
         return('communication')
@@ -188,6 +188,13 @@ def findCategory (word):
     if matchObj:
         print "Info: Match for software : ",matchObj.group()
         return('software')
+    else:
+        print "No match for software"
+
+    matchObj = re.search(r'NETSPEED SYSTEMS',word)
+    if matchObj:
+        print "Info: Match for income : ",matchObj.group()
+        return('income')
     else:
         print "No match for software"
 
