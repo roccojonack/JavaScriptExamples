@@ -1,10 +1,14 @@
-
 /* JAVASCRIPT CODE GOES HERE */
-var table = $("#example").DataTable( );
-var Title  = "account overview";
-var xTitle = "date";
-var yTitle = "amount";
+// need protect the global variables
+var table  = $("#example").DataTable( );
+var Title  = "Account Overview";
+var xTitle = "Date";
+var yTitle = "Amount";
 var key_data_string;
+var amount = [];
+//var categoryArray   = {};
+//var Array           = {};
+
 
 function filterColumn ( i ) {
   $('#example').DataTable().column( i ).search(
@@ -106,7 +110,16 @@ function convertStringToNumber(num){
   // console.log(num); 
   return parseFloat(num) || null;
 }
+  
+function get_month(stringIn){
+  var array = stringIn.split("-");
+  return (array[0]+"-"+array[1]);
+}
 
+function get_year(stringIn){
+  var array = stringIn.split("-");
+  return array[0];
+}
 
 // the main function is reading a CSV file, putting the data into a JS data structure
 // and finally formats the data for plotly; setting up all layout information
@@ -125,36 +138,94 @@ function myPlot(data) {
   plotChart(my_data);
 }
 
-function plotChart(data) {
+//
+//
+function findCategory(data) {
   var my_data  = d3.csvParse(data);
-  // var my_data  = data;
-  // console.log(my_data);  // raw CSV data
-  // console.log(my_data.length);  // length of vector
+  // console.log("raw data reported from plotChart " + my_data);  // raw CSV data
+  // console.log("length of raw data vector reported from plotChart " + my_data.length);
   
   // first line contains the keys for different sets of values
   var key_data = key_data_string.split(",");
-  //console.log(key_data);  // key labels
+  
+  // first row contains X axis values for all sets
+  var index;
+  var category;
+  for (index = 0; index < my_data.length; index++) {
+    category = my_data[index][key_data[3]];
+    amount[category] = my_data[index][key_data[2]];
+  }
+}
+
+
+function assignCategoryYear (data) {
+  var my_data         = d3.csvParse(data);
+  var key_data_string = data.substring(0,data.indexOf("\n"));
+  var key_data        = key_data_string.split(",");
+  var year            = "1901";
+  var year_prev       = "1900";
+  var index;
+  //initialize_categories(my_data, key_data);
+  var  Array          = {};
+  var categoryArray   = {};
+
+  for (index = 0; index < my_data.length; index++) {
+    // derive month or year from date
+    year = get_year(my_data[index][key_data[0]]);
+    // console.log("month reported from plotChart " + month + " " + month_prev);
+    if (year != year_prev) {
+      var newEntry = {};
+      if (year_prev != "1900") {
+	// need to copy elements in order to avoid reference copy
+	for (x in categoryArray) {
+	  newEntry[x] = categoryArray[x];
+	};
+	Array[year_prev] = newEntry;
+	// reset_categories();
+      };
+    };
+    year_prev = year;
+    categoryArray[my_data[index][key_data[3]]] = categoryArray[my_data[index][key_data[3]]] + convertStringToNumber(my_data[index][key_data[2]]);
+    categoryArray[my_data[index][key_data[3]]] = convertStringToNumber((categoryArray[my_data[index][key_data[3]]]).toFixed(2));
+    //console.log("category from plotChart " + my_data[index][key_data[3]] + " " + category[my_data[index][key_data[3]]]);
+  };
+  // final entry
+  var newEntry = {};
+  // need to copy elements in order to avoid reference copy
+  for (x in categoryArray) {
+    newEntry[x] = categoryArray[x];
+  };
+  Array[year] = newEntry;
+  plot_chart_category(categoryArray, Array);
+};
+
+// input is an array of raw data with an expected structure
+// the X axis is the date, but under some config options it should 
+// become collapsable by month, week or year
+function plotChart(data) {
+  var my_data  = d3.csvParse(data);
+  // var my_data  = data;
+  // console.log("raw data reported from plotChart " + my_data);  // raw CSV data
+  // console.log("length of raw data vector reported from plotChart " + my_data.length);
+  
+  // first line contains the keys for different sets of values
+  var key_data = key_data_string.split(",");
+  //console.log("key reported from plotChart " + key_data);  // key labels
   
   // first row contains X axis values for all sets
   var xAxis = [];
-  var index1;
   var index;
   for (index = 0; index < my_data.length; index++) {
     xAxis.push(my_data[index][key_data[0]]);
   };	
-  // console.log(xAxis); 
-  
   // all rows (except for first/second which is X) define Y values
   var yAxis       = [];
   var yAxis_tmp   = [];
-  var start_index = 2;
-  var end_index   = 4;
   var accumulate  = 0;
   var accumulateArray = [];
-  index1    = 2;
   yAxis_tmp = [];
   for (index = 0; index < my_data.length; index++) {
-    var amount = convertStringToNumber(my_data[index][key_data[index1]]);
+    var amount = convertStringToNumber(my_data[index][key_data[2]]);
     accumulate += amount;
     //console.log(amount);
     //console.log(accumulate);
@@ -163,14 +234,11 @@ function plotChart(data) {
   };
   yAxis.push(yAxis_tmp);
   yAxis.push(accumulateArray);
-  index1 = 1;
-  yAxis_tmp = [];
-  for (index = 0; index < my_data.length; index++) {
-    yAxis_tmp.push(my_data[index][key_data[index1]]);
-  };
-  yAxis.push(yAxis_tmp);
-  
-  //console.log(yAxis);
+  // console.log(yAxis);
+  plot_chart(xAxis, yAxis);
+};
+
+function plot_chart(xAxis, yAxis) {
   // push data into data structure for plotly
   var trace1 = {
     x: xAxis,
@@ -189,7 +257,7 @@ function plotChart(data) {
     line: {shape: 'hv'},
     //type: 'bar'
   };
-  
+
   var data = [trace1,trace2];
   // setup layout information
   var layout = {
@@ -214,16 +282,42 @@ function plotChart(data) {
       }
     }
   };
-  //console.log(trace);
   // actually call plotly
   Plotly.newPlot('chartCanvas', data, layout);
+};
+
+function plot_chart_category(categoryArray, Array) {
+        var data = [];
+        for (x in categoryArray) {
+          var x_axis = [];
+          var y_axis = [];
+          for (idx in Array) {
+            x_axis.push(idx);
+            y_axis.push(Array[idx][x]);
+          }; 
+          var trace = {
+            x    : x_axis,
+            y    : y_axis,
+            name : x,
+            type : 'bar',
+          };
+          data.push(trace);
+        };
+        var layout = {
+          xaxis: {title: 'X axis'},
+          yaxis: {title: 'Y axis'},
+          barmode: 'relative',
+          title: 'Relative Barmode'
+        };
+        Plotly.newPlot('chartCanvas', data, layout);
+
 };
 
 //add an event listener
 d3.select("select").on(
 	      "change", function(d) {
 		var sel       = d3.select('#label-option').node().value + ".txt";
-		// var xscale    = d3.select('#x-scale-option').node().value;
+		var xscale    = d3.select('#x-scale-option').node().value;
 		console.log(sel);
 		//console.log(xscale);
 		// read actual CSV file; make sure no spaces!
@@ -236,11 +330,16 @@ d3.select("select").on(
 			  console.log("yTitle is " + yTitle);
 			  // remove all comments before passing into data structure
 			  data = data.replace(/^[#@][^\r\n]+[\r\n]+/mg, ''); 
-			  // console.log("data is " + data);
+			  //console.log("data is " + data);
 			  // var my_data  = d3.csvParse(data);
 			  key_data_string = data.substring(0,data.indexOf("\n"));
-			  
-			  plotChart(data);
+                          if (xscale=="annual") {
+			    assignCategoryYear(data);
+			  } else {
+			    // assignCategoryYear(data);
+			    findCategory(data);
+ 			    plotChart(data);
+			  };
 			  table.destroy();
 			  generateTable(data);
 			} 

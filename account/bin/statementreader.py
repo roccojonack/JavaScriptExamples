@@ -1,4 +1,9 @@
 #! /usr/bin/python
+#
+# replace , with ; because default export for bank is using ,
+# also adding a header
+#
+
 import re
 from optparse import OptionParser
 import datetime

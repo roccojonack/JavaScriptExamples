@@ -4,7 +4,7 @@
     <script src="js/plotly-latest.min.js"></script>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/DataTables/datatables.min.js"></script>
-    <script src="http://cdn.datatables.net/plug-ins/1.10.16/sorting/signed-num.js"></script>
+    <script src="js/signed-num.js"></script>
     <link href="js/DataTables/datatables.min.css" type="text/css" rel="stylesheet" />
   </head>
   <body>
@@ -27,10 +27,11 @@
 	      <option value="targo_biz">business account</option>
           </select>
           <select id="x-scale-option">
-	    <option value="cycle">cycle based X Axis</option>
-	    <option value="time">time based X Axis</option>
+	    <option value="monthly">monthly X Axis</option>
+	    <option value="weekly">weekly X Axis</option>
+	    <option value="daily">daily X Axis</option>
+	    <option value="annual">annual X Axis</option>
           </select>
-	  <a href="#anylink" class="ui-btn" id="button">Remove Selected</a>
 	</div>
       </p>
       <div id="chartCanvas" style="width:90%; height:600px;"></div>

@@ -1,5 +1,12 @@
 #! /usr/bin/python
-
+####################################################################
+#
+# description : the script is reading both CSV from Targo bank account
+#               as well as files from PDF miner based on credit card 
+#               output is a clean CSV file with unified layout
+#               for display in browser
+#
+####################################################################
 import re
 from optparse import OptionParser
 import datetime
@@ -55,7 +62,7 @@ def convertEuropeanAmount2USStyle (line):
     return myLine
 
 # very specific to my needs; sorting based on description to find category
-# default is unknown
+# default is "unknown"; will be updated based on experience
 def findCategory (word):
     print "check for category in ",word
     matchObj = re.search(r'MIETE',word)
@@ -163,7 +170,7 @@ def findCategory (word):
     else:
         print "Debug: No match for utilities"
 
-    matchObj = re.search(r'STOK F FINANZAMT|DRV BUND|Rundfunk ARD ZDF|KATHI KLEMM',word)
+    matchObj = re.search(r'FINANZAMT|Finanzamt|DRV BUND|Rundfunk ARD ZDF|KATHI KLEMM',word)
     if matchObj:
         print "Info: Match for tax : ",matchObj.group()
         return('tax')
@@ -251,6 +258,69 @@ def prehandleCreditCardStatement (string1,string2):
           print "Debug : couldn't find anything for line ", newString
           return newString
 
+# this function looks crazy, but it offsets weird effects in the PDF reader
+# some wild adaptations are necessary in order to have a unified format later
+# check that line starts with date as day.month with 2 digits
+# followed by day of the week (MO,DI,MI...), but day of the week might be with of without ;
+# also checking that last 2 entries are amounts
+def prehandleGiroStatement (string1,string2):
+     newString = string1
+     words     = string1.split(";")
+     if len(words)<4:
+          print "Debug: skiping because single or no character is weird in line :",string1
+          return ''
+     else:
+          print "Debug: checking in strings ", words[0], " and ", words[1]
+          matchObj1 = re.search(r'\d\d\.(0|1)\d',words[0])
+          matchObj2 = re.search(r'\d\d\.(0|1)\d',words[1])
+          if (matchObj1 or matchObj2):
+               if matchObj1:
+                    print "Info: Match for date : ",matchObj1.group()
+                    myDate = matchObj1.group()
+                    myDate = myDate.replace('.', '/')+ "/" + year
+                    matchObj1 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[0])
+                    matchObj2 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[1])
+                    if (not matchObj1 and not matchObj2):
+                         print "Debug: still no Match for date : ",words[0]
+                         print "Debug: skiping because single or no character is weird in line :",string1
+                         return ''
+                    if matchObj1:
+                         newString = ' '.join(words[1:-2])
+                    else:
+                         newString = ' '.join(words[2:-2])
+                    newString = myDate + ";\"" + newString
+               else:
+                    print "Info: Match for date : ",matchObj2.group()
+                    myDate = matchObj2.group()
+                    myDate = myDate.replace('.', '/')+ "/" + year
+                    matchObj1 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[1])
+                    matchObj2 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[2])
+                    if (not matchObj1 and not matchObj2):
+                         print "Debug: still no Match for date : ",words[1]
+                         print "Debug: skiping because single or no character is weird in line :",string1
+                         return ''
+                    if matchObj1:
+                         newString = ' '.join(words[2:-2])
+                    else:
+                         newString = ' '.join(words[3:-2])
+                    newString = myDate + ";\"" + newString
+               matchObj1 = re.search(r'\d*\.*\d+,\d\d',words[len(words)-1])
+               matchObj2 = re.search(r'\d*\.*\d+,\d\d',words[len(words)-2])
+               if (matchObj1 and matchObj2):
+                    print "Debug: amount ", matchObj1.group()," ", matchObj2.group()
+                    matchObj3 = re.search(r'GUTSCHRIFT',newString)
+                    if matchObj3:
+                         newString = newString + "\";+" + matchObj2.group()+ ";" + matchObj1.group()
+                    else:
+                         newString = newString + "\";-" + matchObj2.group()+ ";" + matchObj1.group()
+               else:
+                    return ''
+               print "Debug : returned : ", newString
+               return newString;
+          print "Debug : couldn't find anything returning empty string for line : ", newString
+          return ''
+
+# here we are assuming a line from the PDF miner out of a Credit card statement
 def handleCreditCardStatement (string,accountName,year,rollover):
     counter = 0
     newYear = int(year)
@@ -274,7 +344,7 @@ def handleCreditCardStatement (string,accountName,year,rollover):
         if counter==LineLength-1:
             # deal with description
             category = findCategory(newCategory)
-            newLine += ",\""+newCategory.replace(',',';')+"\"" 
+            newLine += ",\""+newCategory.replace(',',';')+"\""
             # deal with Betrag
             amount = convertEuropeanAmount2USStyle(word.rstrip())
             print "found amount:",amount
@@ -287,9 +357,10 @@ def handleCreditCardStatement (string,accountName,year,rollover):
             print "found desription:",word
         counter+=1   
         print "found word:", word,":",counter
-    newLine += "\n"
     return newLine
 
+# here we are assuming a line coming from a targo account exported
+# CSV file
 def handleAccountStatement(string,hour,rememberDate):
     counter = 0
     newLine = ""
@@ -317,7 +388,7 @@ def handleAccountStatement(string,hour,rememberDate):
         if counter==1:
             # deal with description
             category = findCategory(word)
-            newLine = newLine+",\""+word+"\"" 
+            newLine = newLine+","+word
             counter = 2
             continue
         if counter==2:
@@ -346,17 +417,18 @@ def handleAccountStatement(string,hour,rememberDate):
     return newLine, hour, rememberDate
 
 class transaction:
-    amount = 0
+    amount      = 0
     description = ""
-    date = ""
-    source = ""
-    account = ""
-    category = "unkown"
+    date        = ""
+    source      = ""
+    account     = ""
+    category    = "unkown"
     
     def __self__(self,name,soure):
         self.name = name
         print "constructing a new transaction entry from : ", source
-    
+
+# this is acctually the main body
 parser = OptionParser()
 parser.add_option("-f", "--file", dest="filename",
                   help="write report to FILE", metavar="FILE")
@@ -364,13 +436,16 @@ parser.add_option("-y", "--year", dest="year",
                   help="using year", metavar="FILE")
 parser.add_option("-r", "--rollover", dest="rollover",
                   help="using a rollover", metavar="FILE")
+parser.add_option("-g", "--giro", dest="giro",
+                  action="store_true", default=False,
+                  help="file which was generated by PDF miner")
 
 (options, args)  = parser.parse_args()
 file_name_input  = options.filename
 year             = options.year
 rollover         = options.rollover
 file_name_output = 'targo_cleaner.txt'
-print "Handling file input ", file_name_input
+print "Handling file input  ", file_name_input
 print "How about file input ", options.filename
 f    = open(file_name_input, "r")
 fout = open(file_name_output, "w")
@@ -378,6 +453,9 @@ fout = open(file_name_output, "w")
 # reading the entire file into buffer
 data = f.readlines()
 
+if options.giro :
+     print "found giro file ", options.giro
+     
 # going over the lines
 rememberDate  = ""
 hour          = 0
@@ -391,7 +469,7 @@ lastLine      = ""
 for line in data:
     myLine = cleanCommaInLine(line)
     words = myLine.split(";")
-    print "Debug: input is :", myLine
+    # print "Debug: input is : ", myLine
     # line is legend in account statement
     if words[0]=='date' :
         print "found account legend with ",printedLegend
@@ -410,20 +488,32 @@ for line in data:
             # fout.write(legendHeader)
         credit_card = 1
         continue
-    if len(words)>3 and words[3]=='PARTNERZUSATZKARTE 4908 2975 4092 5960':
+    if len(words)>3 and words[0]=='Ihre' and words[1]=='vereinbarte':
         print "end credit card legend"
         # fout.write(','.join(words))
         credit_card = 0
         continue
-    if len(words)>3 and words[3]=='Ihre Premium Bonuspunkte':
+    if len(words)>3 and words[0]=='Ihre' and words[1]=='vereinbarte':
         print "end credit card legend"
         # fout.write(','.join(words))
         credit_card = 0
         continue
-    if account==0 and credit_card==0:
-        # print "Debug: skipping", myLine
+    if len(words)>1 and words[0]=='PARTNERZUSATZKARTE' or words[0]=='KARTE':
+        print "found card number as ", words[0]
+        # fout.write(','.join(words))
+        continue
+    if account==0 and credit_card==0 and options.giro==False:
+        print "Debug: skipping", myLine
         continue
     # handling each line by spliting into List
+    if options.giro==True:
+        print "Debug: giro account handling ", myLine
+        myLine  = prehandleGiroStatement(line, lastLine)
+        if len(myLine)>0:
+             newLine,hour,rememberDate = handleAccountStatement(myLine,hour,rememberDate)
+             print "Debug: writing", newLine,":",hour,":",rememberDate
+             newData.append(newLine)
+        continue
     if credit_card==1:
         print "Debug: pre handling for ", line, lastLine
         myLine  = prehandleCreditCardStatement(line, lastLine)
@@ -449,4 +539,5 @@ newerData = sortForDate(newData)
 for data in newerData:
     print "Debug: sorted output:", data
     fout.write(','.join(data))
+    fout.write('\n')
     
