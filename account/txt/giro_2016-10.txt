@@ -1,0 +1,301 @@
+none
+none
+START PAGE 0
+Orleansplatz;6a
+81667;München
+Geschäftszeiten:
+TARGOBANK AG & Co. KGaA - Postfach 10 02 30 - 47002 Duisburg
+MO-FR;9.00-13.00;UHR
+MO-FR;14.00-18.00;UHR
+H;err
+Kundennu;m;mer: 200275977
+Rocco Jonack
+Ohl;muellerstrasse 2
+81541 ;Muenchen
+Sehr geehrter ;Herr Jonack,
+heute;erhalten;SieIhren;Kontoauszug.;Mehrzu;unseren;Produkten;und;Services;erfahren;Sie;unter;www.targobank.de.
+Mit freundlichen ;Grüßen
+Ihre TARGOBANK
+7
+7
+9
+5
+7
+2
+0
+Girokontoauszug;vo;m;01.08.2016-;30.09.2016
+0
+2
+ 
+ 
+5
+9
+1
+0
+0
+Infor;mationen über Ihre Konten auf einen Blick
+ 
+ 
+1
+2
+:
+6
+ 
+ 
+ ;Alle Beträge sind, soweit nicht anders ausgewiesen, in Euro angegeben.
+6
+1
+0
+2
+KOMFORT-KONTO;5380344029;EUR
+.
+0
+1
+.
+1
+0
+ 
+*
+ 
+ 
+*
+Herr  Rocco Jonack
+ 
+1
+ 
+*
+ 
+0
+Für;Girokonten;erfolgtjeweils;a;mletzten;Bankgeschäftstag;der;Monate;März,;Juni,;Septe;mber;und;Deze;mber;ein;Rechnungsabschluss.;Dieser;gilt;ge;mäß;Ziff.
+0
+0
+0;7;Abs.2unserer;AGBalsgenehmigt,;wennEinwendungennichtvor;Ablaufvonsechs;Wochennachdessen;Zuganggeltendgemacht;werden.;Bei
+ 
+*
+ ;textför;mlichen;Einwendungen;oder;Erstattungsansprüchen;genügt;die;Absendunginnerhalb;derjeweils;genannten;Frist.;Siekönnen;bei;einer
+ 
+)
+A
+D;Belastungsbuchung;aufgrund;einer;vonIhnen;autorisierten;SEPA-Basislastschrift;oder;auch;aufgrund;einer;vonIhnen;autorisierten;Lastschrifti;m
+D
+(;Einzugser;mächtigungsverfahreninnerhalbvonacht;Wochennach;Belastungsbuchungohne;Angabevon;Gründendie;Erstattungdesbelasteten
+ 
+A
+D
+Lastschriftbetrages;verlangen.
+D
+S
+B
+E
+IBAN:;DE03 3002 0900 5380 3440 29;BIC CODE:;CMCIDEDD
+Transaktionen
+2
+ 
+0;01.08MOANFANGSSALDO;0,00
+ 
+X
+24.08;MI;ZINSÄNDERUNG:FÜRVEREINBARTEDISPOSITIONSKREDITE;0,00
+ 
+0
+GELTEN;AB;DEM24.08.2016;FOLGENDESOLLZINSSÄTZE:
+8
+5
+BIS100,00EUR:;0.00;%P.A.
+7
+1;ÜBER100,00EUR:;12.43%P.A.
+.
+(FÜRDIEGESAMTE;INANSPRUCHNAHME)
+7
+5
+SOLLZINSSATZFÜR;GEDULDETE
+0
+0
+ÜBERZIEHUNG:15.43;%;P.A.
+.
+3
+0
+02.09;FR;GUTSCHRIFTÜBERSWIFT;EUR;15.151,44;15.151,44;15.151,44
+0
+NETSPEEDSYSTEMS,INC.;SENDER-REF03MT160902107570
+0
+.
+TARGREF;WKNFG160902I472575GEBFREMDBK;0,00
+4
+2
+SVBKUS6SXXX
+8
+1
+EXPENSE;REPORT;ANDINVOICE2016-1
+9
+0
+CONTACTNAME:ROCCOJANACK
+.
+3
+CONTACT;PHONE:4915201737430
+0
+0
+02.09;FR;BitteAWVMeldepflichtbeachten;AuskunfterhaltenSie;15.151,44
+1
+6
+bei;der;Bundesbank;unter;0800/1234111
+1
+0
+2
+.
+Fortsetzung nächste Seite
+H
+K
+Persönlich haftender und geschäftsführender Gesellschafter: TARG;O ;Manage;ment AG (cid:143) Vorstand: Pascal Laugel (Vorsitzender);
+Jürgen Lieberknecht; Berthold Rüsing; ;Maria Topaler (cid:143) Vorsitzender des Aufsichtsrates: Eckart Tho;mä
+Sitz der Gesellschaft: Düsseldorf (cid:143) ;Handelsregister A;mtsgericht Düsseldorf ;HRB 48380  (cid:143)  USt-ID-;Nr.: DE 811 285 485;
+USt-ID-;Nr. des u;msatzsteuerlichen ;Organträgers: DE 261 486 989
+DEY2DD05/P110342/C200275977
+END PAGE 0
+START PAGE 1
+Seite 2/;2
+30.09.2016;RoccoJonack;C200275977
+Fortsetzung von vorheriger Seite
+KOMFORT-KONTO;5380344029;EUR
+Transaktionen
+08.09;DO;INTERNEUMBUCHUNGSOLL;TARGOBANKTBOL;2.776,44;12.375,00
+AM;08.09.2016;UM12.08;12.19/2
+TARGOBANKKONTO;30020900/000000005300237684
+30.09FR;INTERNEUMBUCHUNGSOLL;TARGOBANKTBOL;7,00;12.368,00
+AM30.09.2016;UM14.25;12.19/2
+TARGOBANKKONTO;30020900/000000005300237684
+30.09FR;INTERNEUMBUCHUNGSOLL;TARGOBANKTBOL;7,00;12.361,00
+AM30.09.2016;UM14.27;12.19/2
+TARGOBANKKONTO;30020900/000000005300237684
+30.09FR;INTERNEUMBUCHUNGSOLL;TARGOBANKTBOL;34,90;12.326,10
+AM30.09.2016;UM14.27;12.19/2
+TARGOBANKKONTO;30020900/000000005300237684
+30.09FR;INTERNEUMBUCHUNGSOLL;TARGOBANKTBOL;140,42;12.185,68
+7
+7;AM30.09.2016UM14.30;12.19/2
+9
+5
+7;TARGOBANKKONTO;30020900/000000005300237684
+2
+0
+0
+30.09;FR;SOLLZINSSÄTZE:FÜRVEREINBARTEDISPOSITIONSKREDITE;12.185,68
+2
+ 
+ 
+5
+BIS100,00EUR:;0.00;%P.A.
+9
+1
+0
+UEBER100,00EUR:;12.43;%P.A.
+0
+ 
+ 
+1
+(FÜRDIEGESAMTE;INANSPRUCHNAHME)
+2
+:
+6
+ 
+ ;SOLLZINSSATZFÜRGEDULDETEÜBERZIEHUNG:15.43;%P.A.
+ 
+6
+1
+0
+230.09FRENDSALDO;12.185,68
+.
+0
+1
+.
+1
+0
+Summe;2.965,76;15.151,44
+ 
+*
+ 
+ 
+*
+ 
+2
+ 
+*
+ ;Verfügbarer Betrag;12.185,68
+0
+0
+0
+0;Auszugsnummer;1
+ 
+*
+ 
+ 
+)
+A
+D
+D
+(
+ 
+A
+D
+D;Guthabensind;als;Einlagen;nach;Maßgabe;des;Einlagensicherungsgesetzes;entschädigungsfähig.;NähereInfor;mationenkönnen;Sie;de;m"Infor;mationsbogenfür
+S
+B
+den;Einleger";entneh;men.
+E
+Haben Sie Fragen oder An;merkungen zu Ihre;m Auszug?
+V;Bitteprüfen;Sie;unverzüglich,ob;die;Kontobewegungenund;Berechnungendieses;Konto-;bzw.;Monatsauszugsrichtigsind.;BeiFragenberaten;wir;Siegernin
+ 
+unseren;Filialen;oderrund;u;m;die;Uhr;unter;der;oben;genannten;Telefon-Banking;Hotline.;Bitte;halten;Sie;dafürIhre;Kontonu;m;mer;bereit.;Bei;Unsti;m;migkeiten
+0
+ 
+wenden;Siesich;bitte;an;die;TARGOBANKInnenrevision,;Postfach101818,;40009;Düsseldorf.
+X
+ 
+0
+8
+5
+7
+Der Schutz Ihrer Privatsphäre ist uns ;wichtig.
+1
+.
+Unsere;Datenschutzhinweisefinden;Siein;der;Schalterauslage;undi;mInternet(www.targobank.de).;SolltenIhre;Daten;unrichtigsein;bzw.;Sie;keine;Werbung
+7
+5
+oder;Befragungenzu;m;Zweckeder;Markt-und;Meinungsforschung;wünschenoderallge;meineFragenzu;m;Datenschutzhaben,können;Siesichanunsere
+0
+0
+Mitarbeiteroder;un;mittelbaranden;Datenschutzbeauftragtender;TARGOBANK,;Postfach;21;04;53,;47026;Duisburg;wenden.;Die;TARGOBANKerbringtIhre
+.
+Serviceleistungenzu;m;Teil;unter;Einschaltungsorgfältig;ausgewählter;Vertragspartneri;m;Wege;der;Auftragsbearbeitung.;Eine;Datenüber;mittlunginsog.
+3
+0
+Drittstaatenkannz.B.zu;Zwecken;dertechnischen;Unterstützung,;der;Erbringungvon;Rechendienstleistungen;und;der;Progra;m;mentwicklung;und-wartung;auf
+0
+0;Basisvon;EU-Standardvertragsklauselnzur;Über;mittlungvon;Daten;an;Drittstaaten;oder;anderenvon;den;Datenschutzaufsichtsbehörden;anerkannten
+.
+Maßnah;men;erfolgen.;AktuelleInfor;mationen;enthält;das;öffentliche;Verfahrensverzeichnis,;das;bei;m;Datenschutzbeauftragten;der;TARGOBANK;angefordert
+4
+2
+werdenkann,sowie;die;Datenschutzhinweisein;den;AGB.
+8
+1
+9
+0
+.
+3
+0
+0
+1
+6
+1
+0
+2
+.
+H
+K
+Persönlich haftender und geschäftsführender Gesellschafter: TARG;O ;Manage;ment AG (cid:143) Vorstand: Pascal Laugel (Vorsitzender);
+Jürgen Lieberknecht; Berthold Rüsing; ;Maria Topaler (cid:143) Vorsitzender des Aufsichtsrates: Eckart Tho;mä
+Sitz der Gesellschaft: Düsseldorf (cid:143) ;Handelsregister A;mtsgericht Düsseldorf ;HRB 48380  (cid:143)  USt-ID-;Nr.: DE 811 285 485;
+USt-ID-;Nr. des u;msatzsteuerlichen ;Organträgers: DE 261 486 989
+DEY2DD05/P110343/C200275977
+END PAGE 1
+
