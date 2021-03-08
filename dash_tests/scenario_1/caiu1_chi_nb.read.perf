@@ -1,0 +1,10 @@
+# Performance summary for interface caiu1_chi_nb
+bandwidth   in MB/s  (start/end time) : 33762.0 (10010625/13801874)
+utilization req/resp(start/end time)  : 33.0/65.9 (10010625/13801874)
+number of requests/responses          : 2000/4000
+full latency           (min/max/avg)  : 42/76/50
+latency reqVR          (min/max/avg)  : 1/1/1
+latency reqRV          (min/max/avg)  : 0/0/0
+latency req2resp       (min/max/avg)  : 39/73/46
+latency respVR         (min/max/avg)  : 0/2/0
+latency respRV         (min/max/avg)  : 1/1/1

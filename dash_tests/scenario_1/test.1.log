@@ -1,0 +1,45 @@
+[I] [                0 s ](I703) tracing timescale unit set: 1 ps (test.1.vcd)
+[I] [                0 s ]caiu0                    :  DatapathWidth:32 OttEntriesCount:128 SttEntriesCount:18 DceCredit:10 DmiCredit:12
+[I] [                0 s ]caiu1                    :  DatapathWidth:32 OttEntriesCount:128 SttEntriesCount:18 DceCredit:10 DmiCredit:12
+[I] [                0 s ]dii0                     :  rtt=24 wtt=24 mrd=0 dtr=64 nccmd=94 dcerb=0 dmirb=28 cache=NONE qos=NONE
+[I] [                0 s ]dii1                     :  rtt=24 wtt=24 mrd=0 dtr=64 nccmd=94 dcerb=0 dmirb=28 cache=NONE qos=NONE
+[I] [                0 s ]dmi0                     :  rtt=24 wtt=24 mrd=32 dtr=256 nccmd=80 dcerb=32 dmirb=28 Cache=[sets=512 ways=16 repl=NRU index=[8,9,10,11,12,13,14,15,16] tagbanks=2[0] databanks=4[0,1]] qosmap:[7,7,6,6,5,5,4,4,3,3,2,2,1,1,0,0]
+[I] [                0 s ]dmi1                     :  rtt=24 wtt=24 mrd=32 dtr=256 nccmd=80 dcerb=32 dmirb=28 Cache=[sets=512 ways=16 repl=NRU index=[8,9,10,11,12,13,14,15,16] tagbanks=2[0] databanks=4[0,1]] qosmap:[7,7,6,6,5,5,4,4,3,3,2,2,1,1,0,0]
+[I] [                0 s ]dmi2                     :  rtt=24 wtt=24 mrd=32 dtr=256 nccmd=80 dcerb=32 dmirb=28 Cache=[sets=512 ways=16 repl=NRU index=[8,9,10,11,12,13,14,15,16] tagbanks=2[0] databanks=4[0,1]] qosmap:[7,7,6,6,5,5,4,4,3,3,2,2,1,1,0,0]
+[I] [                0 s ]dmi3                     :  rtt=24 wtt=24 mrd=32 dtr=256 nccmd=80 dcerb=32 dmirb=28 Cache=[sets=512 ways=16 repl=NRU index=[8,9,10,11,12,13,14,15,16] tagbanks=2[0] databanks=4[0,1]] qosmap:[7,7,6,6,5,5,4,4,3,3,2,2,1,1,0,0]
+[I] [                0 s ]cncb2-ACE-LITE           : DataPathWidth:32B OttEntriesCount:128 SttEntriesCount:0 CmdCreditsPerDCE:10 CmdCreditsPerDMI:10 | CCP configuration - NumberOfSets:0 NumberOfWays: 0 QoS Enable? Yes
+[I] [                0 s ]cncb3-ACE-LITE           : DataPathWidth:32B OttEntriesCount:64 SttEntriesCount:0 CmdCreditsPerDCE:10 CmdCreditsPerDMI:10 | CCP configuration - NumberOfSets:0 NumberOfWays: 0 QoS Enable? Yes
+[I] [                0 s ]cncb4-ACE-LITE           : DataPathWidth:32B OttEntriesCount:64 SttEntriesCount:0 CmdCreditsPerDCE:10 CmdCreditsPerDMI:10 | CCP configuration - NumberOfSets:0 NumberOfWays: 0 QoS Enable? Yes
+[I] [                0 s ]cncb5-ACE-LITE           : DataPathWidth:32B OttEntriesCount:64 SttEntriesCount:0 CmdCreditsPerDCE:10 CmdCreditsPerDMI:10 | CCP configuration - NumberOfSets:0 NumberOfWays: 0 QoS Enable? Yes
+[I] [                0 s ]cncb6-ACE-LITE           : DataPathWidth:32B OttEntriesCount:64 SttEntriesCount:2 CmdCreditsPerDCE:10 CmdCreditsPerDMI:10 | CCP configuration - NumberOfSets:0 NumberOfWays: 0 QoS Enable? Yes
+[I] [                0 s ]cncb7-ACE-LITE           : DataPathWidth:32B OttEntriesCount:64 SttEntriesCount:2 CmdCreditsPerDCE:10 CmdCreditsPerDMI:10 | CCP configuration - NumberOfSets:0 NumberOfWays: 0 QoS Enable? Yes
+[I] [                0 s ]sys_dii                  :  rtt=24 wtt=24 mrd=0 dtr=64 nccmd=94 dcerb=0 dmirb=28 cache=NONE qos=NONE
+[I] [                0 s ]hw_...pauto_sim.caiu0_drv: STL file name of chi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/caiu0.1.stl
+[I] [                0 s ]hw_...pauto_sim.caiu1_drv: STL file name of chi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/caiu1.1.stl
+[I] [                0 s ]hw_...auto_sim.ncaiu0_drv: STL file name of axi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu0.1.stl
+[I] [                0 s ]hw_...auto_sim.ncaiu1_drv: STL file name of axi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu1.1.stl
+[I] [                0 s ]hw_...auto_sim.ncaiu2_drv: STL file name of axi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu2.1.stl
+[I] [                0 s ]hw_...auto_sim.ncaiu3_drv: STL file name of axi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu3.1.stl
+[I] [                0 s ]hw_...auto_sim.ncaiu4_drv: STL file name of axi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu4.1.stl
+[I] [                0 s ]hw_...auto_sim.ncaiu5_drv: STL file name of axi_driver = /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu5.1.stl
+[I] [         2.286875 us]hw_...im.caiu0_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/caiu0.1.stl
+[I] [         4.456250 us]hw_...im.caiu0_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/caiu0.1.stl
+[I] [        11.668750 us]hw_...im.caiu1_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/caiu1.1.stl
+[I] [        13.802500 us]hw_...im.caiu1_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/caiu1.1.stl
+[I] [        20.561875 us]hw_...m.ncaiu0_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu0.1.stl
+[I] [        22.040625 us]hw_...m.ncaiu0_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu0.1.stl
+[I] [        29.936875 us]hw_...m.ncaiu1_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu1.1.stl
+[I] [        31.415625 us]hw_...m.ncaiu1_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu1.1.stl
+[I] [        39.311875 us]hw_...m.ncaiu2_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu2.1.stl
+[I] [        40.790625 us]hw_...m.ncaiu2_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu2.1.stl
+[I] [        48.686875 us]hw_...m.ncaiu3_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu3.1.stl
+[I] [        50.165625 us]hw_...m.ncaiu3_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu3.1.stl
+[I] [       231.982500 us]hw_...m.ncaiu4_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu4.1.stl
+[I] [       237.577500 us]hw_...m.ncaiu4_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu4.1.stl
+[I] [          269.480 us]hw_...m.ncaiu5_drv.parser: Finished reading /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu5.1.stl
+[I] [          275.075 us]hw_...m.ncaiu5_drv.parser: Finished executing /scratch/rocco/workarea/NCore/Ncore3/NXP/working_128OTT_0216/output/models/standalone/TLM/stl_files/ncaiu5.1.stl
+[I] [          285.075 us]/OSCI/SystemC            : Simulation stopped by user.
+[I] [          285.075 us]perf_estimator           : Wall clock (process clock) based simulation real time factor is 277864(276643)
+[I] [          285.075 us]perf_estimator           : constr & elab time: 0.389561s
+[I] [          285.075 us]perf_estimator           : simulation time:    78.8434s
+[I] [          285.075 us]SystemC                  : Finished, there were 0 errors and 0 warnings

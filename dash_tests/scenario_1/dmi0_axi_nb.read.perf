@@ -1,0 +1,10 @@
+# Performance summary for interface dmi0_axi_nb
+bandwidth   in MB/s  (start/end time) : 1900.5 (647500/270045624)
+utilization req/resp(start/end time)  : 1.9/3.7 (647500/270045624)
+number of requests/responses          : 8000/16000
+full latency           (min/max/avg)  : 4/12/5
+latency reqVR          (min/max/avg)  : 1/1/1
+latency reqRV          (min/max/avg)  : 0/0/0
+latency req2resp       (min/max/avg)  : 2/10/3
+latency respVR         (min/max/avg)  : 0/5/0
+latency respRV         (min/max/avg)  : 1/2/1

@@ -1,0 +1,10 @@
+# Performance summary for interface ncaiu0_axi_nb
+bandwidth   in MB/s  (start/end time) : 48210.9 (19385625/22040624)
+utilization req/resp(start/end time)  : 47.1/94.2 (19385625/22040624)
+number of requests/responses          : 2000/4000
+full latency           (min/max/avg)  : 29/270/252
+latency reqVR          (min/max/avg)  : 1/2/1
+latency reqRV          (min/max/avg)  : 0/0/0
+latency req2resp       (min/max/avg)  : 27/268/250
+latency respVR         (min/max/avg)  : 0/0/0
+latency respRV         (min/max/avg)  : 1/1/1
