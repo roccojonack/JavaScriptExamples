@@ -1,0 +1,9 @@
+{signal: [
+  {name: 'calk', wave: 'p.........'},
+  {name: 'req', wave: 'x.345xxxxx', data: ['req1', 'req2', 'req3']},
+  {name: 'resp', wave: 'x...345xxx', data: ['resp1', 'resp2', 'resp3']},
+  {},
+  {name: 'req', wave: 'x345xxxxx', data: ['req1', 'req2', 'req3']},
+  {name: 'resp', wave: 'x.....345x', data: ['resp1', 'resp2', 'resp3']}
+  
+]}
