@@ -1,0 +1,26 @@
+{signal: [
+  {name: 'calk', wave: 'p..............'},
+  {},
+  ['Slave',
+   {name: 'req', wave: 'x.3456xxxxxxxxx', data: ['req1', 'req2','req3','req4']},
+   {name: 'resp', wave: 'x.....3456xxxxx', data: ['resp1', 'resp2', 'resp3','resp4']}
+  ],
+  {node: '..1.......2'},
+  ['Master1',
+   {name: 'req', wave: 'x34xxxxxxxxxxxx', data: ['req1', 'req2', 'req3']},
+   {name: 'resp', wave: 'x......3x4xxxxx', data: ['resp1', 'resp2', 'resp3']}
+  ],
+  {},
+  ['Master2',
+   {name: 'req', wave: 'xxx34xxxxxxxxxx', data: ['req3', 'req4']},
+   {name: 'resp', wave: 'x...........34x', data: ['resp3', 'resp4']}
+  ]
+],
+head:{
+   text:'Bandwidth example',
+   tock:0,
+  },
+ edge: [
+'1<-|->2 socket latency'
+ ]
+}
