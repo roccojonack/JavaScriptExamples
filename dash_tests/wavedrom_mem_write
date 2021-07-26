@@ -1,0 +1,35 @@
+{signal: [
+  {name: 'clk', wave: 'p................'},
+  {},
+  ['dmi 0',
+   {name: 'req', wave: 'x2345xxxxxxxxxxxx', data: ['req1a', 'req1b','req2a', 'req2b']},
+   {name: 'resp', wave: 'x..3x4xxxxxxxxxxx', data: ['rsp1', 'rsp2']}
+  ],
+  {node:''},
+  ['dmi 1',
+   {name: 'req', wave: 'x2.3.4.5.xxxxxxxx', data: ['req1a', 'req1b','req2a', 'req2b']},
+   {name: 'resp', wave: 'x.....3x..4xxxxxx', data: ['rsp1', 'rsp2']}
+  ],
+  {node: '.1.2.3.4'},
+  ['dmi 2',
+   {name: 'req', wave: 'x3..4..5..6..xxxx', data: ['req1a', 'req1b','req2a','req2b']},
+   {name: 'resp', wave: 'x........3xxxxx4x', data: ['rsp1', 'rsp2']}
+  ],
+  {node: '.5..6..7..8'}
+],
+head:{
+   text:'memory latency examples',
+   tock:0,
+},
+foot:{
+   test: 'write examples'
+},
+edge: [
+   '1<-|->2 wr data dly',
+   '2<-|->3 wr data dly',
+   '3<-|->4 wr rsp dly',
+   '5<-|->6 wr data dly',
+   '6<-|->7 wr data dly',
+   '7<-|->8 wr rsp dly',
+]
+}

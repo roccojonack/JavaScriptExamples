@@ -1,0 +1,24 @@
+{signal: [
+  {name: 'clk', wave: 'p..............'},
+  {},
+  ['dmi 0',
+   {name: 'req', wave: 'x34xxxxxxxxxxxx', data: ['req1', 'req2']},
+   {name: 'resp', wave: 'x3456xxxxxxxxxx', data: ['rsp1a', 'rsp1b', 'rsp2a','rsp2b']}
+  ],
+  {node: '.12'},
+  ['dmi 2',
+   {name: 'req', wave: 'x34xxxxxxxxxxxx', data: ['req1', 'req2']},
+   {name: 'resp', wave: 'x..3x45x6xxxxxx', data: ['rsp1a', 'rsp1b', 'rsp2a','rsp2b']}
+  ],
+  {node: '.5.3.4'},
+],
+head:{
+   text:'memory latency examples',
+   tock:0,
+  },
+ edge: [
+   '1<-|->2 rd beat lat',
+   '3<-|->4 rd beat lat',
+   '5<-|->3 rd rsp lat'
+ ]
+}
