@@ -1,5 +1,5 @@
 {signal: [
-  {name: 'calk', wave: 'p..............'},
+  {name: 'clk', wave: 'p..............'},
   {},
   ['Slave',
    {name: 'req', wave: 'x.3456xxxxxxxxx', data: ['req1', 'req2','req3','req4']},

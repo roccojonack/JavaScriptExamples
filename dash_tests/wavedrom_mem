@@ -1,24 +1,38 @@
+
 {signal: [
-  {name: 'clk', wave: 'p..............'},
+  {name: 'clk', wave: 'p................'},
   {},
   ['dmi 0',
-   {name: 'req', wave: 'x34xxxxxxxxxxxx', data: ['req1', 'req2']},
-   {name: 'resp', wave: 'x3456xxxxxxxxxx', data: ['rsp1a', 'rsp1b', 'rsp2a','rsp2b']}
+   {name: 'req', wave: 'x3344xxxxxxxxxxxx', data: ['req1a', 'req1b','req2a', 'req2b']},
+   {name: 'resp', wave: 'x..3x4xxxxxxxxxxx', data: ['rsp1', 'rsp2']}
   ],
-  {node: '.12'},
+  {node:''},
+  ['dmi 1',
+   {name: 'req', wave: 'x3.3.4.4.xxxxxxxx', data: ['req1a', 'req1b','req2a', 'req2b']},
+   {name: 'resp', wave: 'x.....3x..4xxxxxx', data: ['rsp1', 'rsp2']}
+  ],
+  {node: '.a.b.c.d'},
   ['dmi 2',
-   {name: 'req', wave: 'x34xxxxxxxxxxxx', data: ['req1', 'req2']},
-   {name: 'resp', wave: 'x..3x45x6xxxxxx', data: ['rsp1a', 'rsp1b', 'rsp2a','rsp2b']}
+   {name: 'req', wave: 'x3..3..4..4..xxxx', data: ['req1a', 'req1b','req2a','req2b']},
+   {name: 'resp', wave: 'x........3xxxxx4x', data: ['rsp1', 'rsp2']}
   ],
-  {node: '.5.3.4'},
+  {node: '.e..f..g..h'}
 ],
+config: { hscale: 2 },
+
 head:{
    text:'memory latency examples',
    tock:0,
-  },
- edge: [
-   '1<-|->2 rd beat lat',
-   '3<-|->4 rd beat lat',
-   '5<-|->3 rd rsp lat'
- ]
+},
+foot:{
+   test: 'write examples'
+},
+edge: [
+   'a<-|->b wr data dly',
+   'b<-|->c wr data dly',
+   'c<-|->d wr rsp dly',
+   'e<-|->f wr data dly',
+   'f<-|->g wr data dly',
+   'g<-|->h wr rsp dly',
+]
 }
