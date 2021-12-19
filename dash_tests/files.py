@@ -1,11 +1,10 @@
 import base64
 import os
 from urllib.parse import quote as urlquote
-
 from flask import Flask, send_from_directory
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from dash.dependencies import Input, Output
 
 
@@ -14,12 +13,10 @@ UPLOAD_DIRECTORY = "project/app_uploaded_files"
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
 
-
 # Normally, Dash creates its own Flask server internally. By creating our own,
 # we can create a route for downloading files directly:
 server = Flask(__name__)
 app = dash.Dash(server=server)
-
 
 @server.route("/download/<path:path>")
 def download(path):
@@ -95,6 +92,5 @@ def update_output(uploaded_filenames, uploaded_file_contents):
     else:
         return [html.Li(file_download_link(filename)) for filename in files]
 
-
 if __name__ == "__main__":
-    app.run_server(debug=True, port=8888,host='192.168.178.30')
+    app.run_server(debug=True, port=8888)

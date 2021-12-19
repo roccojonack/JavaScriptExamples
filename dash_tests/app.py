@@ -2,11 +2,10 @@
 
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
-
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_table
+from dash import dcc
+from dash import html
+from dash import dash_table
 import plotly.express as px
 import pandas as pd
 import glob, os
@@ -33,18 +32,17 @@ for i,data in enumerate(df):
     fig.add_trace(go.Bar(x=df[i]['name'], y=df[i]['latencyavg'], name=names[i]), row=1, col=2)
 fig.add_trace(go.Histogram(x=df1['Time'], nbinsx=100, y=df1['full latency'], histfunc='avg'), row=3, col=1)
 
-fig.update_layout(title='Bandwidth in different scenarios',
-                  height=600, 
-                   xaxis_title='interface name',
-                   yaxis_title='amount of transfers')
+fig.update_layout(  title='Bandwidth in different scenarios'
+                  , height=600
+                  , xaxis_title='interface name'
+                  , yaxis_title='amount of transfers')
 fig.update_layout(barmode='group')
 
 app.layout = html.Div(children=[
     html.H1(children='Dashboard for a Ncore3 scenario'),
-
     dcc.Graph(
-        id='example-graph',
-        figure=fig
+        id='example-graph'
+        , figure=fig
     ),
     dash_table.DataTable(
         id='table',
@@ -56,6 +54,4 @@ app.layout = html.Div(children=[
 ])
 
 if __name__ == '__main__':
-    app.run_server(host='192.168.178.30',debug=True)
-
-    
+    app.run_server(debug=True)

@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3
 ####################################################################
 #
 # description : the script is reading both CSV from Targo bank account
@@ -10,6 +10,7 @@
 import re
 from optparse import OptionParser
 import datetime
+import logging
 import creditCardReader
 
 # this is acctually the main body
@@ -29,6 +30,8 @@ file_name_input  = options.filename
 year             = options.year
 rollover         = options.rollover
 file_name_output = 'targo_cleaner.txt'
+# logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 print ("Handling file input  ", file_name_input)
 f    = open(file_name_input, "r")
@@ -36,32 +39,6 @@ fout = open(file_name_output, "w")
 
 # reading the entire file into buffer
 data = f.readlines()
-transactionData = addEntries(data)
-formatOutput(transactionData)
+transactionData = creditCardReader.addEntries(data)
+creditCardReader.formatOutput(transactionData)
 
-def isDate(TestString):
-    matchObj = re.search(r'\d+\.\d+\.\d+',TestString)
-    if matchObj:
-        print "Info: Match for date ",matchObj.group()
-        return True
-     return False
-
-def addEntries(data) :   
-    newEntry       = []
-    for line in data:
-        words = line.split(" ")
-        if isDate(words[0]) and isDate(words[1]) :
-            print ("found account statement ", line)
-            newEntry.append(handleCreditCardStatement(line,accountName,year,rollover))
-            continue
-        print ("Warning: no new entry")
-    return newEntry
-
-def formatOutput(DataSet):
-    print ("Debug: finally sorting and printing")
-    newData = sortForDate(DataSet)
-    for data in newData:
-        print ("Debug: sorted output:", data)
-        fout.write(','.join(data))
-        fout.write('\n')
-    
