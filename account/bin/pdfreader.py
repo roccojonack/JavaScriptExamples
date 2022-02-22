@@ -2,7 +2,7 @@
 import sys
 
 def pdf_to_csv(filename, separator, threshold):
-    from cStringIO import StringIO
+    from io import StringIO
     from pdfminer.converter import LTChar, TextConverter
     from pdfminer.layout import LAParams
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
@@ -58,7 +58,7 @@ def pdf_to_csv(filename, separator, threshold):
     for i, page in enumerate(PDFPage.get_pages(fp)):
         outfp.write("START PAGE %d\n" % i)
         if page is not None:
-            print 'none'
+            print ('none')
             interpreter.process_page(page)
         outfp.write("END PAGE %d\n" % i)
 
@@ -73,6 +73,6 @@ if __name__ == '__main__':
     separator = ';'
     # the distance multiplier after which a character is considered part of a new word/column/block. Usually 1.5 works quite well
     threshold = 1.5
-    print pdf_to_csv(sys.argv[1], separator, threshold)
+    print (pdf_to_csv(sys.argv[1], separator, threshold))
 
     
