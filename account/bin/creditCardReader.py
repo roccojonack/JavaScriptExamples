@@ -14,7 +14,7 @@ import logging
 def isDate(TestString):
      matchObj = re.search(r'\d+\.\d+\.\d+',TestString)
      if matchObj:
-          logging.info ("Info: Match for date ",matchObj.group())
+          logging.debug ("Match for date %s"%(matchObj.group()))
           return True
      return False
 
@@ -27,16 +27,15 @@ def addEntries(data) :
                   logging.info("found account statement {} with {} entires".format(words[0],len(newEntry)))
                   newEntry.append(handleCreditCardStatement(line))
                   continue
-        logging.warning("no new entry with {}".format(line))
+        logging.debug("no new entry with {}".format(line))
     return newEntry
 
 def formatOutput(DataSet):
-    logging.debug("finally sorting and printing")
-    # newData = sortForDate(DataSet)
-    for data in DataSet:
-        logging.debug("sorted output:", data)
-        #fout.write(','.join(data))
-        #fout.write('\n')
+    logging.debug("finally sorting and printing %s"%( DataSet))
+    for entry in DataSet:
+        (date, amount, category) = sortForDate(entry.strip())
+        logging.info("sorted output: %s/%s/%s"%(date, amount, category))
+ 
     
 # function is a callback in sortForDate
 # it defines the order of the date elements in order to
@@ -49,22 +48,13 @@ def sorting(L):
 # function is sorting the lines before writing out
 # it also fills in an hour in order to avoid statements on same day
 def sortForDate(data):
-    d = data
-    d = sorted(d, key=sorting)
-    hour = 0
-    rememberDate = ''
-    newData = []
-    for line in d:
-        date = line.split(',')
-        if rememberDate==date[0]:
-            hour+=1
-        else:
-            hour=0
-        rememberDate=date[0]
-        date[0] += " "+str(hour).zfill(2)
-        logging.debug ("sorted ",date)
-        newData.append(date)
-    return newData
+    dataList = data.split("  ")
+    date = dataList[0]
+    amount = dataList[-1]
+    category = " ".join(dataList[2:-2])
+    category.strip()
+    logging.debug ("sorted %s %s %s %s"%(data, date, amount, category))
+    return (date, amount, category)
 
 # function cleans up comma inside a string in quote
 # otherwise some other functions may fail
@@ -91,13 +81,13 @@ def convertEuropeanAmount2USStyle (line):
 # very specific to my needs; sorting based on description to find category
 # default is "unknown"; will be updated based on experience
 def findCategory (word):
-    logging.info ("check for category in ",word)
+    logging.debug ("check for category in ",word)
     matchObj = re.search(r'MIETE',word)
     if matchObj:
-        logging.info ("Info: Match for rent : ",matchObj.group())
+        logging.debug ("Info: Match for rent : ",matchObj.group())
         return('rent')
     else:
-        logging.info ("Debug: No match for rent")
+        logging.debug ("Debug: No match for rent")
 
     matchObj = re.search(r'HIT-MARKT|IHRHIT-MARKT|NETTO|Penny|aldi|ALDI|LIDL|Lidl|V-MARKT|TENGELMANN|EDEKA',word)
     if matchObj:
@@ -265,7 +255,7 @@ def prehandleGiroStatement (string1,string2):
      newString = string1
      words     = string1.split(";")
      if len(words)<4:
-          logging.info ("Debug: skiping because single or no character is weird in line :",string1)
+          logging.debug ("Debug: skiping because single or no character is weird in line :",string1)
           return ''
      else:
           logging.info ("Debug: checking in strings ", words[0], " and ", words[1])
@@ -273,14 +263,14 @@ def prehandleGiroStatement (string1,string2):
           matchObj2 = re.search(r'\d\d\.(0|1)\d',words[1])
           if (matchObj1 or matchObj2):
                if matchObj1:
-                    logging.info ("Info: Match for date : ",matchObj1.group())
+                    logging.debug ("Info: Match for date : ",matchObj1.group())
                     myDate = matchObj1.group()
                     myDate = myDate.replace('.', '/')+ "/" + year
                     matchObj1 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[0])
                     matchObj2 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[1])
                     if (not matchObj1 and not matchObj2):
-                         logging.info ("Debug: still no Match for date : ",words[0])
-                         logging.info ("Debug: skiping because single or no character is weird in line :",string1)
+                         logging.debug ("Debug: still no Match for date : ",words[0])
+                         logging.debug ("Debug: skiping because single or no character is weird in line :",string1)
                          return ''
                     if matchObj1:
                          newString = ' '.join(words[1:-2])
@@ -288,14 +278,14 @@ def prehandleGiroStatement (string1,string2):
                          newString = ' '.join(words[2:-2])
                     newString = myDate + ";\"" + newString
                else:
-                    logging.info ("Info: Match for date : ",matchObj2.group())
+                    logging.debug ("Info: Match for date : ",matchObj2.group())
                     myDate = matchObj2.group()
                     myDate = myDate.replace('.', '/')+ "/" + year
                     matchObj1 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[1])
                     matchObj2 = re.search(r'(MO|DI|MI|DO|FR|SA|SO)',words[2])
                     if (not matchObj1 and not matchObj2):
-                         logging.info ("Debug: still no Match for date : ",words[1])
-                         logging.info ("Debug: skiping because single or no character is weird in line :",string1)
+                         logging.debug ("Debug: still no Match for date : ",words[1])
+                         logging.debug ("Debug: skiping because single or no character is weird in line :",string1)
                          return ''
                     if matchObj1:
                          newString = ' '.join(words[2:-2])

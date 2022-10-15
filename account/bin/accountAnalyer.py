@@ -31,7 +31,7 @@ year             = options.year
 rollover         = options.rollover
 file_name_output = 'targo_cleaner.txt'
 # logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 print ("Handling file input  ", file_name_input)
 f    = open(file_name_input, "r")
