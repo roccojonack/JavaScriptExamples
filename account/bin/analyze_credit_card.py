@@ -58,17 +58,21 @@ def cleanAmount(value):
     newValue = newValue.replace(",",".")
     return newValue
 
-def assignEntry(date, desc, shortDesc, location, amount, yearOfStatement, assignCategory=True):
+def assignEntry(date, desc, shortDesc, location, amount, yearOfStatement, monthOfStatment, assignCategory=True):
     tmp = {}
-    # logger.debug(date+":"+ desc+":"+ shortDesc+":"+ location+":"+ amount+":"+ yearOfStatement)
+    # ßlogger.info(date+":"+ desc+":"+ shortDesc+":"+ location+":"+ amount+":"+ yearOfStatement+":"+monthOfStatment)
     tmp['date'] = date
     if tmp['date'].split('.')[2]!="":
         tmp['formated date'] = datetime.datetime.strptime(tmp['date'], '%d.%m.%y')
     else:
-        if tmp['date'].split('.')[1]=="01":
+        if monthOfStatment=="01":
+            if tmp['date'].split('.')[1]=="01":
+                tmp['formated date'] = datetime.datetime.strptime(tmp['date']+yearOfStatement, '%d.%m.%y')
+            else:   
+                tmp['formated date'] = datetime.datetime.strptime(tmp['date']+str(int(yearOfStatement)-1), '%d.%m.%y')
+        else:
             tmp['formated date'] = datetime.datetime.strptime(tmp['date']+yearOfStatement, '%d.%m.%y')
-        else:   
-            tmp['formated date'] = datetime.datetime.strptime(tmp['date']+str(int(yearOfStatement)-1), '%d.%m.%y')
+
     tmp['short desc'] = desc
     tmp['desc'] = shortDesc
     if assignCategory:
@@ -80,51 +84,53 @@ def assignEntry(date, desc, shortDesc, location, amount, yearOfStatement, assign
 def textInterpretation(filename, outfile, found):
     with open(filename,encoding='utf-8') as txt_file:
         txt = txt_file.read()
-        dateOfStatement = re.findall(r'Rechnungsdatum\s+\d\d\.\d\d\.\d\d(\d\d).*', txt)
+        dateOfStatement = re.findall(r'Rechnungsdatum\s+\d\d\.(\d\d)\.\d\d(\d\d).*', txt)
         singleMatches = re.findall(r'^('+dateValue+')\s+('+dateValue+')\s+(\S+)\s+(.*)('+countryValues+')\s*('+amountValue+')(.*)$', txt, re.MULTILINE)
         multiMatches = re.findall(r'^('+dateValue+')\s+('+dateValue+')\s+(\S+)(.*)\n(\S*)\s*(\S*)('+countryValues+')\s*('+amountValue+')(.*)$', txt, re.MULTILINE)
         auslandMatches = re.findall(r'^('+dateValue+')\s+('+dateValue+')\s+(\d+\,\d+\%AUSLANDSEINSATZENTG\.V\.)\n(EUR|USD|MXN)\s*(\d+\.\d\d)\s*('+amountValue+')(.*)$', txt, re.MULTILINE)
         saldoMatches = re.findall(r'^('+dateValue+')\s+('+dateValue+')\s+('+chargeValues+')(.*)\s+('+amountValue+')(.*)$', txt, re.MULTILINE)
-        saldoMatches1 = re.findall(r'^('+dateValue+')\s+('+dateValue+')\s+('+chargeValues+')(.*)\n([^0-9].*)\s+('+amountValue+')(.*)$', txt, re.MULTILINE)
+        saldoMatches1 = re.findall(r'^('+dateValue+')\s+('+dateValue+')\s+('+chargeValues+')(.*)\n([^0-9][a-zA-Z]*)\s*('+amountValue+')(.*)$', txt, re.MULTILINE)
         yearOfStatment = 0
+        monthOfStatement = 0
         for i in dateOfStatement:
-            logging.info("date "+",".join(i))
-            yearOfStatment = i
+            monthOfStatement = i[0]
+            yearOfStatment = i[1]
+            logging.info("Rechnungsdatum "+monthOfStatement+" "+yearOfStatment)
         for i in singleMatches:
             logging.debug("single "+",".join(i))
-            tmp = assignEntry(i[0], i[2], i[2]+i[3], i[4], i[5], yearOfStatment)
+            tmp = assignEntry(i[0], i[2], i[2]+i[3], i[4], i[5], yearOfStatment, monthOfStatement)
             found.append(tmp)
         for i in multiMatches:
             logging.debug("multi "+",".join(i))
-            tmp = assignEntry(i[0], i[2], i[2]+i[3]+i[4]+i[5], i[6], i[7],yearOfStatment)
+            tmp = assignEntry(i[0], i[2], i[2]+i[3]+i[4]+i[5], i[6], i[7],yearOfStatment,monthOfStatement)
             found.append(tmp)
         for i in auslandMatches:
             logging.debug("ausland "+",".join(i))
-            tmp = assignEntry(i[0], i[2], i[2]+i[3]+i[4], "DE", i[5],yearOfStatment)
+            tmp = assignEntry(i[0], i[2], i[2]+i[3]+i[4], "DE", i[5],yearOfStatment,monthOfStatement)
             found.append(tmp)
         for i in saldoMatches:
             logging.debug("interst "+",".join(i))
-            tmp = assignEntry(i[0], i[2], i[2]+i[3], "DE", i[4],yearOfStatment)
+            tmp = assignEntry(i[0], i[2], i[2]+i[3], "DE", i[4],yearOfStatment,monthOfStatement)
             found.append(tmp)
         for i in saldoMatches1:
             logging.debug("interst "+",".join(i))
-            tmp = assignEntry(i[0], i[2], i[2]+i[3]+i[4], "DE", i[5],yearOfStatment)
+            tmp = assignEntry(i[0], i[2], i[2]+i[3]+i[4], "DE", i[5],yearOfStatment,monthOfStatement)
             found.append(tmp)
     found.sort(key=lambda x:x['formated date'])
     fout = open(outfile, 'w', encoding='utf-8')    
     for entry in found:
         print(entry, file=fout)
     logging.info("found %s entries in file"%(len(found)))
-    return (found, yearOfStatment)
+    return (found, yearOfStatment, monthOfStatement)
 
-def referenceOutput(filename, outfilename, yearOfStatment, references):
+def referenceOutput(filename, outfilename, yearOfStatment, monthOfStatement, references):
     with open(filename,encoding='utf-8') as txt_file:
         lines = txt_file.readlines()
         for line in lines:
             matches = re.search(r'^('+dateValue+')\s+('+dateValue+')\s+(\S+)(.*)', line)
             if matches:
                 logging.debug("reference %s"%(line.rstrip()))
-                tmp = assignEntry(matches.group(1), matches.group(3), matches.group(4), "","",yearOfStatment,False)
+                tmp = assignEntry(matches.group(1), matches.group(3), matches.group(4), "","",yearOfStatment,monthOfStatement, False)
                 references.append(tmp)
 
     references.sort(key=lambda x:x['formated date'])
@@ -190,8 +196,12 @@ def sortEntries(filename):
     print(df.sort_values(by=['amount']))
     zinsList = ['Sollzinsen', 'Habenzinsen','Verzugszinsen']
     gutschriftList = ['Gutschrift', 'GUTSCHRIFT']
+    List = ['GUTSCHRIFT FUER EINGELOESTEBONUSPUNKTE', 'GUTSCHRIFT FUER EINGELOESTE BONUSPUNKTE']
+    costList = ['BELASTUNG JAHRESBEITRAG', 'JAHRESGEBUEHR ZUSATZKARTE']
     print(df[df['short desc'].isin(zinsList)].sort_values(by=['amount']))
     print(df[df['short desc'].isin(gutschriftList)].sort_values(by=['amount']))
+    print(df[df['desc'].isin(List)].sort_values(by=['amount']))
+    print(df[df['desc'].isin(costList)])
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -228,8 +238,8 @@ if __name__ == "__main__":
     for filename in fileList:
         pdf_to_text(filename, output1_txt)
         logging.info("PDF %s converted to text file %s"%(filename, output1_txt))
-        (found, yearOfStatment) = textInterpretation(output1_txt, output2_txt, found)
-        references = referenceOutput(output1_txt, output3_txt, yearOfStatment, references)
+        (found, yearOfStatment, monthOfStatement) = textInterpretation(output1_txt, output2_txt, found)
+        references = referenceOutput(output1_txt, output3_txt, yearOfStatment, monthOfStatement, references)
         logging.info("finished Interpretation")
     format_as_json(found, output4_txt)
     entries_per_month(found)
